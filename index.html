@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azad Ahmed Bhurgrri | Developer Portfolio</title>
+    <!-- Core 3D engine: Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Smooth animation staging: GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        :root {
+            --bg-deep: #050811;
+            --terminal-dark: rgba(10, 16, 32, 0.75);
+            --neon-blue: #00f0ff;
+            --neon-glow: rgba(0, 240, 255, 0.25);
+            --text-main: #e2f1ff;
+            --text-dim: #7da4cc;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', Courier, monospace, system-ui;
+        }
+
+        body, html {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            overflow: hidden;
+            height: 100%;
+        }
+
+        /* Fullscreen WebGL background layer */
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+        }
+
+        /* Cybersecurity Terminal Gateway Splash Screen */
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: radial-gradient(circle, rgba(5,14,35,0.4) 0%, rgba(3,5,12,1) 100%);
+            pointer-events: none;
+            transition: opacity 1s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .splash-ui {
+            pointer-events: auto;
+        }
+
+        #start-btn {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: var(--neon-blue);
+            background: transparent;
+            border: 2px solid var(--neon-blue);
+            padding: 15px 30px;
+            border-radius: 4px;
+            cursor: pointer;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            box-shadow: 0 0 15px var(--neon-glow);
+            text-shadow: 0 0 8px var(--neon-blue);
+            transition: all 0.4s ease;
+        }
+
+        #start-btn:hover {
+            background-color: var(--neon-blue);
+            color: var(--bg-deep);
+            box-shadow: 0 0 35px var(--neon-blue);
+        }
+
+        .splash-hint {
+            margin-top: 20px;
+            font-size: 0.85rem;
+            letter-spacing: 6px;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            animation: pulse-glow 2s infinite;
+        }
+
+        @keyframes pulse-glow {
+            0% { opacity: 0.3; text-shadow: 0 0 0px transparent; }
+            50% { opacity: 1; text-shadow: 0 0 8px var(--neon-blue); }
+            100% { opacity: 0.3; text-shadow: 0 0 0px transparent; }
+        }
+
+        /* Structural Web Interface Overlay */
+        #portfolio-content {
+            position: relative;
+            z-index: 2;
+            max-width: 950px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            opacity: 0;
+            visibility: hidden;
+            display: none;
+            pointer-events: none;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0 60px 0;
+            border-bottom: 1px solid rgba(0, 240, 255, 0.2);
+            margin-bottom: 40px;
+        }
+
+        header h2 {
+            font-size: 2.4rem;
+            color: var(--neon-blue);
+            text-shadow: 0 0 10px var(--neon-glow);
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-dim);
+            letter-spacing: 2px;
+        }
+
+        section {
+            background: var(--terminal-dark);
+            border: 1px solid rgba(0, 240, 255, 0.15);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 35px;
+            margin-bottom: 35px;
+            border-radius: 6px;
+            box-shadow: inset 0 0 20px rgba(0, 240, 255, 0.05), 0 10px 30px rgba(0,0,0,0.5);
+            transform: translateY(40px);
+            opacity: 0;
+        }
+
+        h3 {
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            color: var(--neon-blue);
+            border-bottom: 2px solid rgba(0, 240, 255, 0.2);
+            padding-bottom: 5px;
+            display: inline-block;
+        }
+
+        /* Responsive Technical Grid Layout */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+        }
+
+        .skill-card {
+            background: rgba(5, 12, 28, 0.6);
+            padding: 15px;
+            border: 1px solid rgba(0, 240, 255, 0.1);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.15);
+        }
+
+        .terminal-prompt {
+            color: var(--neon-blue);
+            font-weight: bold;
+        }
+
+        .item {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed rgba(0, 240, 255, 0.1);
+        }
+
+        .item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .project-title {
+            color: var(--text-main);
+            font-size: 1.15rem;
+        }
+
+        .tag {
+            border: 1px solid var(--neon-blue);
+            color: var(--neon-blue);
+            padding: 2px 10px;
+            border-radius: 3px;
+            font-size: 0.75rem;
+            background: rgba(0, 240, 255, 0.05);
+        }
+
+        p, ul {
+            color: var(--text-dim);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        ul {
+            list-style-type: none;
+            margin-top: 8px;
+        }
+
+        li::before {
+            content: "• ";
+            color: var(--neon-blue);
+        }
+
+        li {
+            margin-bottom: 6px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Responsive 3D Canvas Background Graphic Container -->
+    <div id="canvas-container"></div>
+
+    <!-- Initialization Terminal Window Overlay -->
+    <div id="splash-screen">
+        <div class="splash-ui">
+            <button id="start-btn">Azad Ahmed Bhurgrri</button>
+            <div class="splash-hint">> INITIALIZE PORTFOLIO TERMINAL_</div>
+        </div>
+    </div>
+
+    <!-- Scrollable Main Data Framework Layer -->
+    <main id="portfolio-content">
+        <header>
+            <h2>AZAD AHMED BHURGRRI</h2>
+            <p class="subtitle">SOFTWARE DEVELOPER </p>
+            <p>HYDERABAD, SINDH, PAKISTAN</p>
+            <p style="margin-top: 10px; font-size: 0.85rem; color: var(--text-dim);">
+                EMAIL: azadahmedbhurgrri@gmail.com   Contact No: +923126923725 </p>
+           <p> CODES: .NET / PYTHON / FLUTTER </p>
+        </header>
+
+        <section id="summary">
+            <h3>PROFESSIONAL ABSTRACT</h3>
+            <p>Highly motivated Computer Science student seeking a beginner-friendly software development internship. Possesses a solid foundation in core software concepts, frontend design, and scripting languages, with practical experience using modern coding tools. Eager to apply academic learning and technical skills to real-world team projects while gaining professional industry exposure.</p>
+        </section>
+
+        <section id="skills">
+            <h3>SYSTEM CORE SKILLS</h3>
+            <div class="skills-grid">
+                <div class="skill-card"><span class="terminal-prompt">></span> .NET Framework (C#)</div>
+                <div class="skill-card"><span class="terminal-prompt">></span> Python Scripting</div>
+                <div class="skill-card"><span class="terminal-prompt">></span> Flutter App Dev</div>
+                <div class="skill-card"><span class="terminal-prompt">></span> API Development</div>
+                <div class="skill-card"><span class="terminal-prompt">></span> SQL Architecture</div>
+                <div class="skill-card"><span class="terminal-prompt">></span> Web Stack (HTML/CSS/JS)</div>
+            </div>
+        </section>
+
+        <section id="projects">
+            <h3>ACTIVE BUILD INDEX</h3>
+            <div class="item">
+                <div class="item-header">
+                    <span class="project-title">StudentHostel Pro</span>
+                    <span class="tag">DEV_PHASE</span>
+                </div>
+                <p><strong>Architecture:</strong> Flutter Framework, REST API Integrations, Relational SQL Modules</p>
+                <p>Developing a cross-platform mobile platform architected to streamline room listings and roommate matching matrices for academic institutions.</p>
+            </div>
+            <div class="item">
+                <div class="item-header">
+                    <span class="project-title">Food Service Interface</span>
+                    <span class="tag">STABLE</span>
+                </div>
+                <p><strong>Architecture:</strong> HTML5, CSS3, Vanilla JavaScript UI Automation.</p>
+                <p>Engineered an interactive, responsive e-commerce menu tracking customer request arrays and adaptive screen rendering parameters.</p>
+            </div>
+        </section>
+
+        <section id="experience">
+            <h3>INDUSTRY DEPLOYMENTS</h3>
+            <div class="item">
+                <div class="item-header">
+                    <span>Software Development Intern (.NET)</span>
+                    <span class="date tag">2026</span>
+                </div>
+                <p><em>Org: Software Solutions Provider</em></p>
+                <ul>
+                    <li>Assisted in writing and testing simple desktop application modules using C# and the .NET framework inside Visual Studio.</li>
+                    <li>Learned to connect frontend user interfaces with simple backend logic routines.</li>
+                    <li>Gained basic database experience by writing structured SQL queries to retrieve and store application data.</li>
+                </ul>
+            </div>
+            <div class="item">
+                <div class="item-header">
+                    <span>Python Development Intern</span>
+                    <span class="date tag">2025</span>
+                </div>
+                <p><em>Org: Tech Innovation Lab</em></p>
+                <ul>
+                    <li>Created basic Python scripts within the VS Code environment to help automate repetitive data tasks.</li>
+                    <li>Practiced writing clean, well-documented, and readable code modules for simple data parsing routines.</li>
+                    <li>Collaborated directly with senior team members to learn debugging, logic troubleshooting, and code optimization.</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <!-- 3D Neon Matrix Engine Configuration Logic -->
+    <script>
+        // --- 1. SETUP GRAPHICS MATRIX ---
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        // Deep cyber space black
+        scene.background = new THREE.Color(0x03050c); 
+
+        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 5;
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        container.appendChild(renderer.domElement);
+
+        // --- 2. GENERATE TECHNOLOGY DIGITAL CONSTELLATION NODE NETWORK ---
+        const nodeGeometry = new THREE.BufferGeometry();
+        const nodeCount = 450;
+        const coords = new Float32Array(nodeCount * 3);
+
+        for(let i = 0; i < nodeCount * 3; i++) {
+            coords[i] = (Math.random() - 0.5) * 15;
+        }
+        nodeGeometry.setAttribute('position', new THREE.BufferAttribute(coords, 3));
+
+        // Neon Blue Particle Nodes
+        const nodeMaterial = new THREE.PointsMaterial({
+            size: 0.045,
+            color: 0x00f0ff,
+            transparent: true,
+            opacity: 0.8
+        });
+        const cyberParticles = new THREE.Points(nodeGeometry, nodeMaterial);
+        scene.add(cyberParticles);
+
+        // Add a central rotating 3D geometry representing an API Data Token Node
+        const coreGeo = new THREE.IcosahedronGeometry(1.8, 1);
+        const coreMat = new THREE.MeshBasicMaterial({
+            color: 0x005b80,
+            wireframe: true,
+            transparent: true,
+            opacity: 0.25
+        });
+        const coreMesh = new THREE.Mesh(coreGeo, coreMat);
+        scene.add(coreMesh);
+
+        // --- 3. INTERACTIVE POSITIONING MATRICES ---
+        let currentMouseX = 0, currentMouseY = 0;
+        window.addEventListener('mousemove', (e) => {
+            currentMouseX = (e.clientX / window.innerWidth) - 0.5;
+            currentMouseY = (e.clientY / window.innerHeight) - 0.5;
+        });
+
+        // Loop Animation Processing Frame Logic
+        function renderProcessing() {
+            requestAnimationFrame(renderProcessing);
+
+            // Constants rotation over time variables
+            cyberParticles.rotation.y += 0.0008;
+            cyberParticles.rotation.x += 0.0003;
+            coreMesh.rotation.y -= 0.0015;
+
+            // Smooth linear mouse matrix follow routine (Lerp)
+            cyberParticles.position.x += (currentMouseX * 2 - cyberParticles.position.x) * 0.05;
+            cyberParticles.position.y += (-currentMouseY * 2 - cyberParticles.position.y) * 0.05;
+            coreMesh.position.x += (currentMouseX * 1.2 - coreMesh.position.x) * 0.05;
+            coreMesh.position.y += (-currentMouseY * 1.2 - coreMesh.position.y) * 0.05;
+
+            renderer.render(scene, camera);
+        }
+        renderProcessing();
+
+        // --- 4. CINEMATIC TIMELINE SYSTEM REVEAL ROUTINE ---
+        const enterBtn = document.getElementById('start-btn');
+        const splashScreen = document.getElementById('splash-screen');
+        const mainContent = document.getElementById('portfolio-content');
+
+        enterBtn.addEventListener('click', () => {
+            splashScreen.style.opacity = '0';
+            splashScreen.style.pointerEvents = 'none';
+
+            const animationTimeline = gsap.timeline({
+                onComplete: () => {
+                    splashScreen.style.display = 'none';
+                    document.body.style.overflow = 'auto'; // Release UI Scroll lock
+                    mainContent.style.pointerEvents = 'auto';
+                }
+            });
+
+            // Transition camera closer through the matrix node structure
+            animationTimeline.to(camera.position, { z: 3.2, duration: 1.8, ease: 'power2.inOut' })
+              .to(coreMesh.rotation, { z: 2.5, y: 4, duration: 1.8, ease: 'power2.inOut' }, 0)
+              // Modify background asset intensity dynamically
+              .to(coreMat, { opacity: 0.08, duration: 1.5 }, 0.2)
+              // Reveal interface typography structures
+              .to(mainContent, { 
+                  display: 'block', 
+                  visibility: 'visible', 
+                  opacity: 1, 
+                  duration: 0.6 
+              }, 1.2)
+              // Staggered layout section slides
+              .to('section', { 
+                  translateY: 0, 
+                  opacity: 1, 
+                  duration: 0.7, 
+                  stagger: 0.25, 
+                  ease: 'power4.out' 
+              }, 1.3);
+        });
+
+        // Device display matrix scaling synchronization
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>
