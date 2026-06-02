@@ -10,12 +10,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <style>
         :root {
-            --bg-deep: #050811;
-            --terminal-dark: rgba(10, 16, 32, 0.75);
-            --neon-blue: #00f0ff;
-            --neon-glow: rgba(0, 240, 255, 0.25);
-            --text-main: #e2f1ff;
-            --text-dim: #7da4cc;
+            --bg-deep: #ffffff; /* Pure White Background */
+            --terminal-dark: rgba(248, 250, 252, 0.85); /* Clean Light Gray/White Card */
+            --neon-blue: #0066cc; /* Professional Tech Blue */
+            --neon-glow: rgba(0, 102, 204, 0.15); /* Light Blue Soft Shadow */
+            --accent-yellow: #f59e0b; /* Professional Warning/Accent Yellow */
+            --text-main: #1e293b; /* Deep Charcoal Text for high readability */
+            --text-dim: #475569; /* Slate Gray Subtitles/Body Text */
         }
 
         * {
@@ -41,7 +42,6 @@
             height: 100vh;
             z-index: 1;
         }
-
         /* Cybersecurity Terminal Gateway Splash Screen */
         #splash-screen {
             position: fixed;
@@ -55,7 +55,7 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            background: radial-gradient(circle, rgba(5,14,35,0.4) 0%, rgba(3,5,12,1) 100%);
+            background: radial-gradient(circle, rgba(255,255,255,0.7) 0%, rgba(241,245,249,1) 100%);
             pointer-events: none;
             transition: opacity 1s cubic-bezier(0.19, 1, 0.22, 1);
         }
@@ -65,40 +65,41 @@
         }
 
         #start-btn {
-            font-size: 2.8rem;
+            font-size: 2.2rem;
             font-weight: 800;
             color: var(--neon-blue);
-            background: transparent;
-            border: 2px solid var(--neon-blue);
+            background: var(--bg-deep);
+            border: 3px solid var(--neon-blue);
             padding: 15px 30px;
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
             letter-spacing: 2px;
             text-transform: uppercase;
-            box-shadow: 0 0 15px var(--neon-glow);
-            text-shadow: 0 0 8px var(--neon-blue);
+            box-shadow: 0 4px 15px var(--neon-glow);
+            text-shadow: 0 0 1px var(--neon-blue);
             transition: all 0.4s ease;
         }
 
         #start-btn:hover {
             background-color: var(--neon-blue);
             color: var(--bg-deep);
-            box-shadow: 0 0 35px var(--neon-blue);
+            box-shadow: 0 0 25px rgba(0, 102, 204, 0.4);
         }
 
         .splash-hint {
             margin-top: 20px;
             font-size: 0.85rem;
             letter-spacing: 6px;
-            color: var(--text-dim);
+            color: var(--accent-yellow);
+            font-weight: bold;
             text-transform: uppercase;
             animation: pulse-glow 2s infinite;
         }
 
         @keyframes pulse-glow {
-            0% { opacity: 0.3; text-shadow: 0 0 0px transparent; }
-            50% { opacity: 1; text-shadow: 0 0 8px var(--neon-blue); }
-            100% { opacity: 0.3; text-shadow: 0 0 0px transparent; }
+            0% { opacity: 0.4; }
+            50% { opacity: 1; }
+            100% { opacity: 0.4; }
         }
 
         /* Structural Web Interface Overlay */
@@ -108,41 +109,47 @@
             max-width: 950px;
             margin: 0 auto;
             padding: 40px 20px;
-            opacity: 0;
-            visibility: hidden;
-            display: none;
+            display: block;
             pointer-events: none;
         }
 
         header {
             text-align: center;
-            padding: 40px 0 60px 0;
-            border-bottom: 1px solid rgba(0, 240, 255, 0.2);
+            padding: 40px 0 40px 0;
+            border-bottom: 2px solid var(--accent-yellow);
             margin-bottom: 40px;
+            opacity: 0;
+            transform: translateY(30px);
         }
 
         header h2 {
-            font-size: 2.4rem;
+            font-size: 2.5rem;
             color: var(--neon-blue);
-            text-shadow: 0 0 10px var(--neon-glow);
             margin-bottom: 8px;
         }
 
         .subtitle {
             font-size: 1.1rem;
             color: var(--text-dim);
+            font-weight: bold;
             letter-spacing: 2px;
+        }
+
+        .codes-line {
+            color: var(--accent-yellow) !important;
+            font-weight: bold;
+            margin-top: 5px;
         }
 
         section {
             background: var(--terminal-dark);
-            border: 1px solid rgba(0, 240, 255, 0.15);
+            border: 1px solid rgba(0, 102, 204, 0.15);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             padding: 35px;
             margin-bottom: 35px;
-            border-radius: 6px;
-            box-shadow: inset 0 0 20px rgba(0, 240, 255, 0.05), 0 10px 30px rgba(0,0,0,0.5);
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
             transform: translateY(40px);
             opacity: 0;
         }
@@ -151,7 +158,7 @@
             font-size: 1.4rem;
             margin-bottom: 20px;
             color: var(--neon-blue);
-            border-bottom: 2px solid rgba(0, 240, 255, 0.2);
+            border-bottom: 3px solid var(--accent-yellow);
             padding-bottom: 5px;
             display: inline-block;
         }
@@ -164,20 +171,21 @@
         }
 
         .skill-card {
-            background: rgba(5, 12, 28, 0.6);
+            background: rgba(255, 255, 255, 0.9);
             padding: 15px;
-            border: 1px solid rgba(0, 240, 255, 0.1);
+            border: 1px solid rgba(0, 102, 204, 0.1);
             border-radius: 4px;
             display: flex;
             align-items: center;
             gap: 12px;
+            font-weight: bold;
             transition: all 0.3s ease;
         }
 
         .skill-card:hover {
             transform: translateY(-3px);
-            border-color: var(--neon-blue);
-            box-shadow: 0 0 15px rgba(0, 240, 255, 0.15);
+            border-color: var(--accent-yellow);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
         }
 
         .terminal-prompt {
@@ -188,7 +196,7 @@
         .item {
             margin-bottom: 25px;
             padding-bottom: 20px;
-            border-bottom: 1px dashed rgba(0, 240, 255, 0.1);
+            border-bottom: 1px dashed rgba(0, 102, 204, 0.15);
         }
 
         .item:last-child {
@@ -206,17 +214,25 @@
         }
 
         .project-title {
-            color: var(--text-main);
+            color: var(--neon-blue);
             font-size: 1.15rem;
+            font-weight: bold;
         }
 
         .tag {
-            border: 1px solid var(--neon-blue);
-            color: var(--neon-blue);
+            border: 1px solid var(--accent-yellow);
+            color: var(--accent-yellow);
             padding: 2px 10px;
             border-radius: 3px;
             font-size: 0.75rem;
-            background: rgba(0, 240, 255, 0.05);
+            font-weight: bold;
+            background: rgba(245, 158, 11, 0.05);
+        }
+
+        .date.tag {
+            border-color: var(--neon-blue);
+            color: var(--neon-blue);
+            background: rgba(0, 102, 204, 0.05);
         }
 
         p, ul {
@@ -231,12 +247,33 @@
         }
 
         li::before {
-            content: "• ";
-            color: var(--neon-blue);
+            content: "» ";
+            color: var(--accent-yellow);
+            font-weight: bold;
         }
 
         li {
             margin-bottom: 6px;
+        }
+        
+        strong {
+            color: var(--text-main);
+        }
+
+        .languages-list {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .lang-item {
+            font-weight: bold;
+            color: var(--text-main);
+        }
+
+        .lang-item span {
+            color: var(--neon-blue);
         }
     </style>
 </head>
@@ -248,36 +285,50 @@
     <!-- Initialization Terminal Window Overlay -->
     <div id="splash-screen">
         <div class="splash-ui">
-            <button id="start-btn">Azad Ahmed Bhurgrri</button>
-            <div class="splash-hint">> INITIALIZE PORTFOLIO TERMINAL_</div>
+            <button id="start-btn">PORTFOLIO</button>
+            <div class="splash-hint"> __SOFTWARE DEVELOPER INTRN__</div>
         </div>
     </div>
 
     <!-- Scrollable Main Data Framework Layer -->
     <main id="portfolio-content">
-        <header>
+        <header id="node-header">
             <h2>AZAD AHMED BHURGRRI</h2>
-            <p class="subtitle">SOFTWARE DEVELOPER </p>
+            <p class="subtitle">SOFTWARE DEVELOPER INTRN</p>
             <p>HYDERABAD, SINDH, PAKISTAN</p>
             <p style="margin-top: 10px; font-size: 0.85rem; color: var(--text-dim);">
-                EMAIL: azadahmedbhurgrri@gmail.com   Contact No: +923126923725 </p>
-           <p> CODES: .NET / PYTHON / FLUTTER </p>
+                <strong>  EMAIL: azadahmedbhurgrri@gmail.com   Contact No: +923126923725 </strong></p>
+           <p class="codes-line"> CODES: .NET / PYTHON / FLUTTER </p>
         </header>
 
         <section id="summary">
             <h3>PROFESSIONAL ABSTRACT</h3>
-            <p>Highly motivated Computer Science student seeking a beginner-friendly software development internship. Possesses a solid foundation in core software concepts, frontend design, and scripting languages, with practical experience using modern coding tools. Eager to apply academic learning and technical skills to real-world team projects while gaining professional industry exposure.</p>
+            <p>Highly motivated Computer Science student (Final Year) at the University of Sindh seeking a beginner-friendly software development internship. Possesses a solid foundation in core software concepts, frontend design, and scripting languages, alongside a robust workflow in essential professional productivity tools. Eager to apply academic learning and technical skills to real-world team projects while gaining professional industry exposure.</p>
+        </section>
+
+        <section id="education">
+            <h3>EDUCATION</h3>
+            <div class="item">
+                <div class="item-header">
+                    <span class="project-title">BS in Computer Science (Final Year)</span>
+                    <span class="date tag">In Progress</span>
+                </div>
+                <p><strong>INSTITUTION:</strong> IMCS, University of Sindh, Jamshoro</p>
+                <p><strong>BATCH:</strong> 2K23</p>
+                <p>Focusing on comprehensive software systems engineering, data processing matrix logic, and advanced modern computing methodologies.</p>
+            </div>
         </section>
 
         <section id="skills">
-            <h3>SYSTEM CORE SKILLS</h3>
+            <h3>SKILLS</h3>
             <div class="skills-grid">
-                <div class="skill-card"><span class="terminal-prompt">></span> .NET Framework (C#)</div>
+                <div class="skill-card"><span class="terminal-prompt">></span> .NET Framework (C#) | (Backend)</div>
+                <div class="skill-card"><span class="terminal-prompt">></span> Flutter App Dev (Frontend)</div>
+
+                <div class="skill-card"><span class="terminal-prompt">></span> SQL Architecture | (DataBase)</div>
+                <div class="skill-card"><span class="terminal-prompt">></span> Web Stack (HTML/CSS/JS) | Vibe Coding</div>
                 <div class="skill-card"><span class="terminal-prompt">></span> Python Scripting</div>
-                <div class="skill-card"><span class="terminal-prompt">></span> Flutter App Dev</div>
-                <div class="skill-card"><span class="terminal-prompt">></span> API Development</div>
-                <div class="skill-card"><span class="terminal-prompt">></span> SQL Architecture</div>
-                <div class="skill-card"><span class="terminal-prompt">></span> Web Stack (HTML/CSS/JS)</div>
+                <div class="skill-card"><span class="terminal-prompt">></span> MS Word, MS Excel Data, MS PowerPoint</div>           
             </div>
         </section>
 
@@ -305,7 +356,7 @@
             <h3>INDUSTRY DEPLOYMENTS</h3>
             <div class="item">
                 <div class="item-header">
-                    <span>Software Development Intern (.NET)</span>
+                    <span class="project-title" style="font-weight: bold;">Software Development Intern (.NET)</span>
                     <span class="date tag">2026</span>
                 </div>
                 <p><em>Org: Software Solutions Provider</em></p>
@@ -317,7 +368,7 @@
             </div>
             <div class="item">
                 <div class="item-header">
-                    <span>Python Development Intern</span>
+                    <span class="project-title" style="font-weight: bold;">Python Development Intern</span>
                     <span class="date tag">2025</span>
                 </div>
                 <p><em>Org: Tech Innovation Lab</em></p>
@@ -328,126 +379,382 @@
                 </ul>
             </div>
         </section>
+
+        <section id="languages">
+            <h3>LANGUAGES</h3>
+            <div class="languages-list">
+                <div class="lang-item"><span>»</span> English</div>
+                <div class="lang-item"><span>»</span> Urdu</div>
+                <div class="lang-item"><span>»</span> Sindhi</div>
+            </div>
+        </section>
     </main>
+<!-- =========================
+MODERN 3D BOOK STYLE PORTFOLIO
+Replace ONLY your <script> section with this
+========================= -->
 
-    <!-- 3D Neon Matrix Engine Configuration Logic -->
-    <script>
-        // --- 1. SETUP GRAPHICS MATRIX ---
-        const container = document.getElementById('canvas-container');
-        const scene = new THREE.Scene();
-        // Deep cyber space black
-        scene.background = new THREE.Color(0x03050c); 
+<script>
+/* =========================================
+   MODERN CINEMATIC 3D BOOK EXPERIENCE
+   ========================================= */
 
-        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera.position.z = 5;
+/* ---------- 1. THREE JS CORE ---------- */
+const container = document.getElementById('canvas-container');
 
-        const renderer = new THREE.WebGLRenderer({ antialias: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        container.appendChild(renderer.domElement);
+const scene = new THREE.Scene();
+scene.fog = new THREE.Fog(0xf8fafc, 20, 80);
 
-        // --- 2. GENERATE TECHNOLOGY DIGITAL CONSTELLATION NODE NETWORK ---
-        const nodeGeometry = new THREE.BufferGeometry();
-        const nodeCount = 450;
-        const coords = new Float32Array(nodeCount * 3);
+const camera = new THREE.PerspectiveCamera(
+    55,
+    window.innerWidth / window.innerHeight,
+    0.1,
+    1000
+);
 
-        for(let i = 0; i < nodeCount * 3; i++) {
-            coords[i] = (Math.random() - 0.5) * 15;
+camera.position.set(0, 0, 18);
+
+const renderer = new THREE.WebGLRenderer({
+    antialias: true,
+    alpha: true
+});
+
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.outputEncoding = THREE.sRGBEncoding;
+
+container.appendChild(renderer.domElement);
+
+/* ---------- 2. LIGHTING ---------- */
+
+const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
+scene.add(ambientLight);
+
+const directionalLight = new THREE.DirectionalLight(0xffffff, 2);
+directionalLight.position.set(8, 10, 12);
+scene.add(directionalLight);
+
+const blueLight = new THREE.PointLight(0x0066cc, 2, 50);
+blueLight.position.set(-10, 4, 10);
+scene.add(blueLight);
+
+const goldLight = new THREE.PointLight(0xf59e0b, 1.5, 40);
+goldLight.position.set(10, -2, 8);
+scene.add(goldLight);
+
+/* ---------- 3. FLOATING BOOK SYSTEM ---------- */
+
+const booksGroup = new THREE.Group();
+scene.add(booksGroup);
+
+const floatingBooks = [];
+
+function createBook(index) {
+
+    const bookGroup = new THREE.Group();
+
+    /* BOOK BODY */
+    const geometry = new THREE.BoxGeometry(3.2, 4.4, 0.45);
+
+    const materials = [
+        new THREE.MeshStandardMaterial({
+            color: 0x0066cc,
+            roughness: 0.4,
+            metalness: 0.2
+        }),
+        new THREE.MeshStandardMaterial({
+            color: 0x0066cc,
+            roughness: 0.4,
+            metalness: 0.2
+        }),
+        new THREE.MeshStandardMaterial({
+            color: 0xffffff,
+            roughness: 0.7
+        }),
+        new THREE.MeshStandardMaterial({
+            color: 0xffffff,
+            roughness: 0.7
+        }),
+        new THREE.MeshStandardMaterial({
+            color: index % 2 === 0 ? 0xffffff : 0xf8fafc,
+            roughness: 0.3,
+            metalness: 0.1
+        }),
+        new THREE.MeshStandardMaterial({
+            color: 0x0066cc,
+            roughness: 0.5
+        })
+    ];
+
+    const book = new THREE.Mesh(geometry, materials);
+
+    /* GLOW PANEL */
+    const glowGeometry = new THREE.PlaneGeometry(2.8, 4);
+
+    const glowMaterial = new THREE.MeshBasicMaterial({
+        color: index % 2 === 0 ? 0x0066cc : 0xf59e0b,
+        transparent: true,
+        opacity: 0.12,
+        side: THREE.DoubleSide
+    });
+
+    const glowPanel = new THREE.Mesh(glowGeometry, glowMaterial);
+    glowPanel.position.z = 0.24;
+
+    /* INNER LINES */
+    const lineGeometry = new THREE.BufferGeometry();
+    const linePoints = [];
+
+    for (let i = 0; i < 20; i++) {
+
+        const y = 1.7 - i * 0.18;
+
+        linePoints.push(
+            -1.1, y, 0,
+             1.1, y, 0
+        );
+    }
+
+    lineGeometry.setAttribute(
+        'position',
+        new THREE.Float32BufferAttribute(linePoints, 3)
+    );
+
+    const lineMaterial = new THREE.LineBasicMaterial({
+        color: 0x1e293b,
+        transparent: true,
+        opacity: 0.18
+    });
+
+    const lines = new THREE.LineSegments(lineGeometry, lineMaterial);
+    lines.position.z = 0.25;
+
+    bookGroup.add(book);
+    bookGroup.add(glowPanel);
+    bookGroup.add(lines);
+
+    /* RANDOM POSITION */
+    const angle = (index / 12) * Math.PI * 2;
+    const radius = 12 + Math.random() * 4;
+
+    bookGroup.position.x = Math.cos(angle) * radius;
+    bookGroup.position.y = (Math.random() - 0.5) * 8;
+    bookGroup.position.z = (Math.random() - 0.5) * 15;
+
+    bookGroup.rotation.y = Math.random() * Math.PI;
+    bookGroup.rotation.x = (Math.random() - 0.5) * 0.5;
+
+    booksGroup.add(bookGroup);
+
+    floatingBooks.push({
+        mesh: bookGroup,
+        speed: 0.002 + Math.random() * 0.003,
+        rotationSpeed: 0.001 + Math.random() * 0.002
+    });
+}
+
+/* CREATE MULTIPLE BOOKS */
+for (let i = 0; i < 12; i++) {
+    createBook(i);
+}
+
+/* ---------- 4. PARTICLES ---------- */
+
+const particlesGeometry = new THREE.BufferGeometry();
+
+const particlesCount = 200;
+const positions = new Float32Array(particlesCount * 3);
+
+for (let i = 0; i < particlesCount * 3; i++) {
+    positions[i] = (Math.random() - 0.5) * 60;
+}
+
+particlesGeometry.setAttribute(
+    'position',
+    new THREE.BufferAttribute(positions, 3)
+);
+
+const particlesMaterial = new THREE.PointsMaterial({
+    color: 0x0066cc,
+    size: 0.05,
+    transparent: true,
+    opacity: 0.5
+});
+
+const particles = new THREE.Points(
+    particlesGeometry,
+    particlesMaterial
+);
+
+scene.add(particles);
+
+/* ---------- 5. MOUSE MOVEMENT ---------- */
+
+let mouseX = 0;
+let mouseY = 0;
+
+window.addEventListener('mousemove', (event) => {
+
+    mouseX = (event.clientX / window.innerWidth) - 0.5;
+    mouseY = (event.clientY / window.innerHeight) - 0.5;
+});
+
+/* ---------- 6. ANIMATION LOOP ---------- */
+
+const clock = new THREE.Clock();
+
+function animate() {
+
+    requestAnimationFrame(animate);
+
+    const elapsedTime = clock.getElapsedTime();
+
+    /* FLOATING BOOK MOTION */
+    floatingBooks.forEach((item, index) => {
+
+        item.mesh.rotation.y += item.rotationSpeed;
+
+        item.mesh.position.y += Math.sin(
+            elapsedTime * item.speed * 40 + index
+        ) * 0.003;
+
+        item.mesh.rotation.x += Math.sin(
+            elapsedTime * 0.3 + index
+        ) * 0.0005;
+    });
+
+    /* WHOLE GROUP MOVEMENT */
+    booksGroup.rotation.y += 0.0008;
+
+    booksGroup.position.x += (
+        mouseX * 2 - booksGroup.position.x
+    ) * 0.03;
+
+    booksGroup.position.y += (
+        -mouseY * 2 - booksGroup.position.y
+    ) * 0.03;
+
+    /* PARTICLES */
+    particles.rotation.y += 0.0005;
+
+    /* CAMERA SMOOTH */
+    camera.position.x += (mouseX * 1.5 - camera.position.x) * 0.02;
+    camera.position.y += (-mouseY * 1.5 - camera.position.y) * 0.02;
+
+    camera.lookAt(scene.position);
+
+    renderer.render(scene, camera);
+}
+
+animate();
+
+/* ---------- 7. SPLASH ANIMATION ---------- */
+
+const enterBtn = document.getElementById('start-btn');
+const splashScreen = document.getElementById('splash-screen');
+const mainContent = document.getElementById('portfolio-content');
+
+enterBtn.addEventListener('click', () => {
+
+    gsap.to(splashScreen, {
+        opacity: 0,
+        duration: 1.2,
+        ease: "power3.out"
+    });
+
+    const tl = gsap.timeline({
+
+        onComplete: () => {
+
+            splashScreen.style.display = 'none';
+
+            document.body.style.overflow = 'auto';
+
+            mainContent.style.pointerEvents = 'auto';
         }
-        nodeGeometry.setAttribute('position', new THREE.BufferAttribute(coords, 3));
+    });
 
-        // Neon Blue Particle Nodes
-        const nodeMaterial = new THREE.PointsMaterial({
-            size: 0.045,
-            color: 0x00f0ff,
-            transparent: true,
-            opacity: 0.8
-        });
-        const cyberParticles = new THREE.Points(nodeGeometry, nodeMaterial);
-        scene.add(cyberParticles);
+    /* CINEMATIC CAMERA */
+    tl.to(camera.position, {
+        z: 8,
+        duration: 2.5,
+        ease: "power4.inOut"
+    });
 
-        // Add a central rotating 3D geometry representing an API Data Token Node
-        const coreGeo = new THREE.IcosahedronGeometry(1.8, 1);
-        const coreMat = new THREE.MeshBasicMaterial({
-            color: 0x005b80,
-            wireframe: true,
-            transparent: true,
-            opacity: 0.25
-        });
-        const coreMesh = new THREE.Mesh(coreGeo, coreMat);
-        scene.add(coreMesh);
+    tl.to(booksGroup.rotation, {
+        y: 2.5,
+        duration: 3,
+        ease: "power3.inOut"
+    }, 0);
 
-        // --- 3. INTERACTIVE POSITIONING MATRICES ---
-        let currentMouseX = 0, currentMouseY = 0;
-        window.addEventListener('mousemove', (e) => {
-            currentMouseX = (e.clientX / window.innerWidth) - 0.5;
-            currentMouseY = (e.clientY / window.innerHeight) - 0.5;
-        });
+    tl.to(floatingBooks.map(b => b.mesh.scale), {
+        x: 0.7,
+        y: 0.7,
+        z: 0.7,
+        stagger: 0.05,
+        duration: 1.5
+    }, 0.5);
 
-        // Loop Animation Processing Frame Logic
-        function renderProcessing() {
-            requestAnimationFrame(renderProcessing);
+    /* CONTENT REVEAL */
+    tl.to('#node-header', {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "power3.out"
+    }, 1.1)
 
-            // Constants rotation over time variables
-            cyberParticles.rotation.y += 0.0008;
-            cyberParticles.rotation.x += 0.0003;
-            coreMesh.rotation.y -= 0.0015;
+    .to('#summary', {
+        opacity: 1,
+        y: 0,
+        duration: 0.7
+    }, "+=0.15")
 
-            // Smooth linear mouse matrix follow routine (Lerp)
-            cyberParticles.position.x += (currentMouseX * 2 - cyberParticles.position.x) * 0.05;
-            cyberParticles.position.y += (-currentMouseY * 2 - cyberParticles.position.y) * 0.05;
-            coreMesh.position.x += (currentMouseX * 1.2 - coreMesh.position.x) * 0.05;
-            coreMesh.position.y += (-currentMouseY * 1.2 - coreMesh.position.y) * 0.05;
+    .to('#education', {
+        opacity: 1,
+        y: 0,
+        duration: 0.7
+    }, "+=0.1")
 
-            renderer.render(scene, camera);
-        }
-        renderProcessing();
+    .to('#skills', {
+        opacity: 1,
+        y: 0,
+        duration: 0.7
+    }, "+=0.1")
 
-        // --- 4. CINEMATIC TIMELINE SYSTEM REVEAL ROUTINE ---
-        const enterBtn = document.getElementById('start-btn');
-        const splashScreen = document.getElementById('splash-screen');
-        const mainContent = document.getElementById('portfolio-content');
+    .to('#projects', {
+        opacity: 1,
+        y: 0,
+        duration: 0.7
+    }, "+=0.1")
 
-        enterBtn.addEventListener('click', () => {
-            splashScreen.style.opacity = '0';
-            splashScreen.style.pointerEvents = 'none';
+    .to('#experience', {
+        opacity: 1,
+        y: 0,
+        duration: 0.7
+    }, "+=0.1")
 
-            const animationTimeline = gsap.timeline({
-                onComplete: () => {
-                    splashScreen.style.display = 'none';
-                    document.body.style.overflow = 'auto'; // Release UI Scroll lock
-                    mainContent.style.pointerEvents = 'auto';
-                }
-            });
+    .to('#languages', {
+        opacity: 1,
+        y: 0,
+        duration: 0.7
+    }, "+=0.1");
+});
 
-            // Transition camera closer through the matrix node structure
-            animationTimeline.to(camera.position, { z: 3.2, duration: 1.8, ease: 'power2.inOut' })
-              .to(coreMesh.rotation, { z: 2.5, y: 4, duration: 1.8, ease: 'power2.inOut' }, 0)
-              // Modify background asset intensity dynamically
-              .to(coreMat, { opacity: 0.08, duration: 1.5 }, 0.2)
-              // Reveal interface typography structures
-              .to(mainContent, { 
-                  display: 'block', 
-                  visibility: 'visible', 
-                  opacity: 1, 
-                  duration: 0.6 
-              }, 1.2)
-              // Staggered layout section slides
-              .to('section', { 
-                  translateY: 0, 
-                  opacity: 1, 
-                  duration: 0.7, 
-                  stagger: 0.25, 
-                  ease: 'power4.out' 
-              }, 1.3);
-        });
+/* ---------- 8. RESPONSIVE ---------- */
 
-        // Device display matrix scaling synchronization
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        });
-    </script>
+window.addEventListener('resize', () => {
+
+    camera.aspect = window.innerWidth / window.innerHeight;
+
+    camera.updateProjectionMatrix();
+
+    renderer.setSize(
+        window.innerWidth,
+        window.innerHeight
+    );
+});
+
+</script>
+    
 </body>
 </html>
