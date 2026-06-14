@@ -51,13 +51,25 @@
             color: white;
         }
 
-        .profile-img {
+        /* Profile Image Container Structural Fix */
+        .profile-img-container {
             width: 150px;
             height: 150px;
+            min-width: 150px;
             border-radius: 50%;
-            object-fit: cover;
             border: 4px solid var(--accent);
             box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+            overflow: hidden;
+            background: #334155;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .hero-text h1 {
@@ -87,6 +99,7 @@
             gap: 0.75rem;
             margin-bottom: 1.2rem;
             flex-wrap: wrap;
+            margin-top: 0.5rem;
         }
 
         .action-btn {
@@ -306,7 +319,7 @@
 
         .github-link {
             display: inline-block;
-            color: var(--accent);
+            color: #38bdf8;
             text-decoration: none;
             font-weight: 600;
             font-size: 0.9rem;
@@ -337,12 +350,14 @@
 <div class="portfolio-container">
     
     <header class="hero-section">
-        <img src="52026.jpg" alt="Azad Ahmed Bhurgrri" class="profile-img">
+        <div class="profile-img-container">
+            <img src="52026.jpg" alt="Azad Ahmed Bhurgrri" class="profile-img">
+        </div>
         <div class="hero-text">
             <h1>AZAD AHMED BHURGRRI</h1>
             <div class="job-title">SOFTWARE ENGINEER INTERN</div>
             <div class="location">Hyderabad, Sindh, Pakistan</div>
-            <a href="https://azadahmedbhurgrri.github.io/food-project/" target="_blank" class="github-link">➔ View on GitHub</a>
+            <a href="https://azadahmedbhurgrri.github.io/food-project/" target="_blank" class="github-link">➔ View Live Food Project Website</a>
             
             <div class="header-actions">
                 <a href="mailto:azad.ahmed.bhurgrri@gmail.com" class="action-btn btn-primary">Hire Azad (Email)</a>
@@ -453,7 +468,7 @@
                     <li>Designed an interactive dashboard for seamless management and dynamic roommate-matching routines.</li>
                 </ul>
                 <div class="project-links">
-                    <a href="https://github.com/AzadAhmedBhurgrri" target="_blank" class="github-link">➔ View on GitHub</a>
+                    <a href="https://github.com/AzadAhmedBhurgrri" target="_blank" style="color: var(--accent); text-decoration: none; font-weight: 600; font-size: 0.9rem;">➔ View on GitHub</a>
                 </div>
             </div>
 
@@ -468,7 +483,7 @@
                     <li>Processed data payloads and optimized detection logic for classification pipelines.</li>
                 </ul>
                 <div class="project-links">
-                    <a href="https://github.com/AzadAhmedBhurgrri" target="_blank" class="github-link">➔ View on GitHub</a>
+                    <a href="https://github.com/AzadAhmedBhurgrri" target="_blank" style="color: var(--accent); text-decoration: none; font-weight: 600; font-size: 0.9rem;">➔ View on GitHub</a>
                 </div>
             </div>
 
@@ -488,7 +503,7 @@
                     <li>Designed clear navigation bars, organized pricing charts, and an interactive customer contact layout.</li>
                 </ul>
                 <div class="project-links">
-                    <a href="https://github.com/AzadAhmedBhurgrri" target="_blank" class="github-link">➔ View on GitHub Repository</a>
+                    <a href="https://github.com/AzadAhmedBhurgrri" target="_blank" style="color: var(--accent); text-decoration: none; font-weight: 600; font-size: 0.9rem;">➔ View on GitHub Repository</a>
                 </div>
             </div>
         </section>
