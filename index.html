@@ -3,377 +3,435 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Azad Ahmed Bhurgrri | Developer Portfolio</title>
-    <!-- Core 3D engine: Three.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <!-- Smooth animation staging: GSAP -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <title>Azad Ahmed Bhurgrri | Premium Portfolio</title>
     <style>
         :root {
-            --bg-deep: #ffffff; /* Pure White Background */
-            --terminal-dark: rgba(248, 250, 252, 0.85); /* Clean Light Gray/White Card */
-            --neon-blue: #0066cc; /* Professional Tech Blue */
-            --neon-glow: rgba(0, 102, 204, 0.15); /* Light Blue Soft Shadow */
-            --accent-yellow: #f59e0b; /* Professional Warning/Accent Yellow */
-            --text-main: #1e293b; /* Deep Charcoal Text for high readability */
-            --text-dim: #475569; /* Slate Gray Subtitles/Body Text */
+            --primary: #0f172a;
+            --accent: #2563eb;
+            --accent-hover: #1d4ed8;
+            --whatsapp-color: #25d366;
+            --whatsapp-hover: #20ba5a;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --bg-light: #f8fafc;
+            --card-bg: #ffffff;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Courier New', Courier, monospace, system-ui;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        body, html {
-            background-color: var(--bg-deep);
-            color: var(--text-main);
-            overflow: hidden;
-            height: 100%;
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            padding: 2rem 1rem;
         }
 
-        /* Fullscreen WebGL background layer */
-        #canvas-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 1;
-        }
-        /* Cybersecurity Terminal Gateway Splash Screen */
-        #splash-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 10;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            background: radial-gradient(circle, rgba(255,255,255,0.7) 0%, rgba(241,245,249,1) 100%);
-            pointer-events: none;
-            transition: opacity 1s cubic-bezier(0.19, 1, 0.22, 1);
-        }
-
-        .splash-ui {
-            pointer-events: auto;
-        }
-
-        #start-btn {
-            font-size: 2.2rem;
-            font-weight: 800;
-            color: var(--neon-blue);
-            background: var(--bg-deep);
-            border: 3px solid var(--neon-blue);
-            padding: 15px 30px;
-            border-radius: 6px;
-            cursor: pointer;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            box-shadow: 0 4px 15px var(--neon-glow);
-            text-shadow: 0 0 1px var(--neon-blue);
-            transition: all 0.4s ease;
-        }
-
-        #start-btn:hover {
-            background-color: var(--neon-blue);
-            color: var(--bg-deep);
-            box-shadow: 0 0 25px rgba(0, 102, 204, 0.4);
-        }
-
-        .splash-hint {
-            margin-top: 20px;
-            font-size: 0.85rem;
-            letter-spacing: 6px;
-            color: var(--accent-yellow);
-            font-weight: bold;
-            text-transform: uppercase;
-            animation: pulse-glow 2s infinite;
-        }
-
-        @keyframes pulse-glow {
-            0% { opacity: 0.4; }
-            50% { opacity: 1; }
-            100% { opacity: 0.4; }
-        }
-
-        /* Structural Web Interface Overlay */
-        #portfolio-content {
-            position: relative;
-            z-index: 2;
-            max-width: 950px;
+        .portfolio-container {
+            max-width: 850px;
             margin: 0 auto;
-            padding: 40px 20px;
-            display: block;
-            pointer-events: none;
+            background: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
         }
 
-        header {
-            text-align: center;
-            padding: 40px 0 40px 0;
-            border-bottom: 2px solid var(--accent-yellow);
-            margin-bottom: 40px;
-            opacity: 0;
-            transform: translateY(30px);
-        }
-
-        header h2 {
-            font-size: 2.5rem;
-            color: var(--neon-blue);
-            margin-bottom: 8px;
-        }
-
-        .subtitle {
-            font-size: 1.1rem;
-            color: var(--text-dim);
-            font-weight: bold;
-            letter-spacing: 2px;
-        }
-
-        .codes-line {
-            color: var(--accent-yellow) !important;
-            font-weight: bold;
-            margin-top: 5px;
-        }
-
-        section {
-            background: var(--terminal-dark);
-            border: 1px solid rgba(0, 102, 204, 0.15);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            padding: 35px;
-            margin-bottom: 35px;
-            border-radius: 8px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-            transform: translateY(40px);
-            opacity: 0;
-        }
-
-        h3 {
-            font-size: 1.4rem;
-            margin-bottom: 20px;
-            color: var(--neon-blue);
-            border-bottom: 3px solid var(--accent-yellow);
-            padding-bottom: 5px;
-            display: inline-block;
-        }
-
-        /* Responsive Technical Grid Layout */
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 15px;
-        }
-
-        .skill-card {
-            background: rgba(255, 255, 255, 0.9);
-            padding: 15px;
-            border: 1px solid rgba(0, 102, 204, 0.1);
-            border-radius: 4px;
+        /* Hero Header Section */
+        .hero-section {
             display: flex;
             align-items: center;
-            gap: 12px;
-            font-weight: bold;
-            transition: all 0.3s ease;
+            gap: 2rem;
+            padding: 3rem;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            color: white;
         }
 
-        .skill-card:hover {
-            transform: translateY(-3px);
-            border-color: var(--accent-yellow);
-            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--accent);
+            box-shadow: 0 4px 14px rgba(0,0,0,0.2);
         }
 
-        .terminal-prompt {
-            color: var(--neon-blue);
-            font-weight: bold;
+        .hero-text h1 {
+            font-size: 2.2rem;
+            letter-spacing: -0.5px;
+            margin-bottom: 0.1rem;
         }
 
-        .item {
-            margin-bottom: 25px;
-            padding-bottom: 20px;
-            border-bottom: 1px dashed rgba(0, 102, 204, 0.15);
+        .job-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #38bdf8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.4rem;
         }
 
-        .item:last-child {
-            margin-bottom: 0;
-            padding-bottom: 0;
+        .hero-text .location {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            margin-bottom: 0.75rem;
+        }
+
+        /* Header Contact Action Buttons Alignment */
+        .header-actions {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 1.2rem;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 0.5rem 1.2rem;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: background 0.2s;
+            text-align: center;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+        }
+
+        .btn-whatsapp {
+            background: var(--whatsapp-color);
+            color: white;
+        }
+
+        .btn-whatsapp:hover {
+            background: var(--whatsapp-hover);
+        }
+
+        .hero-text .summary {
+            color: #cbd5e1;
+            font-size: 1rem;
+            max-width: 550px;
+        }
+
+        /* Control Dashboard Buttons */
+        .control-panel {
+            display: flex;
+            justify-content: space-around;
+            background: #f1f5f9;
+            padding: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+            gap: 0.5rem;
+        }
+
+        .nav-btn {
+            flex: 1;
+            padding: 0.85rem 1rem;
+            border: none;
+            background: white;
+            color: var(--text-dark);
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.25s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            border: 1px solid #e2e8f0;
+        }
+
+        .nav-btn:hover {
+            background: #e2e8f0;
+            transform: translateY(-1px);
+        }
+
+        .nav-btn.active {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+        }
+
+        /* Dynamic Panel Container */
+        .display-panel {
+            padding: 3rem;
+            min-height: 350px;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--accent);
+            padding-left: 0.75rem;
+        }
+
+        .skill-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .skill-group h4 {
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tag {
+            background: #eff6ff;
+            color: var(--accent);
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border: 1px solid #bfdbfe;
+        }
+
+        .tag-soft {
+            background: #f0fdf4;
+            color: #16a34a;
+            border: 1px solid #bbf7d0;
+        }
+
+        .item-card {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .item-card:last-child {
             border-bottom: none;
+            padding-bottom: 0;
+            margin-bottom: 0;
         }
 
         .item-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            font-weight: bold;
-            margin-bottom: 10px;
+            align-items: baseline;
+            margin-bottom: 0.5rem;
         }
 
-        .project-title {
-            color: var(--neon-blue);
-            font-size: 1.15rem;
-            font-weight: bold;
-        }
-
-        .tag {
-            border: 1px solid var(--accent-yellow);
-            color: var(--accent-yellow);
-            padding: 2px 10px;
-            border-radius: 3px;
-            font-size: 0.75rem;
-            font-weight: bold;
-            background: rgba(245, 158, 11, 0.05);
-        }
-
-        .date.tag {
-            border-color: var(--neon-blue);
-            color: var(--neon-blue);
-            background: rgba(0, 102, 204, 0.05);
-        }
-
-        p, ul {
-            color: var(--text-dim);
-            line-height: 1.9;
+        .item-title {
+            font-weight: 600;
             font-size: 1.1rem;
-            font-style: normal;
+            color: var(--primary);
         }
 
-        ul {
-            list-style-type: none;
-            margin-top: 8px;
+        /* Direct link dedicated layout styling */
+        .food-link-box {
+            display: block;
+            margin: 0.4rem 0 0.8rem 0;
+            background: #f0f7ff;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            border: 1px dashed #bfdbfe;
         }
 
-        li::before {
-            content: "» ";
-            color: var(--accent-yellow);
-            font-weight: bold;
-        }
-
-        li {
-            margin-bottom: 6px;
+        .project-direct-link {
+            font-size: 0.95rem;
+            color: #2563eb !important;
+            text-decoration: underline;
+            font-weight: 600;
+            word-break: break-all;
+            display: inline-block;
         }
         
-        strong {
-            color: var(--text-main);
+        .project-direct-link:hover {
+            color: #1d4ed8 !important;
         }
 
-        .languages-list {
+        .item-meta {
+            font-size: 0.85rem;
+            color: var(--accent);
+            font-weight: 600;
+            background: #eff6ff;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+        }
+
+        .item-sub {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+            font-style: italic;
+        }
+
+        .item-details {
+            padding-left: 1.2rem;
+            color: var(--text-dark);
+            font-size: 0.95rem;
+        }
+
+        .item-details li {
+            margin-bottom: 0.4rem;
+        }
+
+        .project-links {
             display: flex;
-            gap: 30px;
-            flex-wrap: wrap;
-            margin-top: 10px;
+            gap: 1rem;
+            margin-top: 0.8rem;
         }
 
-        .lang-item {
-            font-weight: bold;
-            color: var(--text-main);
+        .github-link {
+            display: inline-block;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
         }
 
-        .lang-item span {
-            color: var(--neon-blue);
+        .github-link:hover {
+            text-decoration: underline;
+        }
+
+        .portfolio-footer {
+            height: 20px;
+            background: #fafafa;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        @media (max-width: 680px) {
+            .hero-section { flex-direction: column; text-align: center; padding: 2rem; }
+            .header-actions { justify-content: center; }
+            .control-panel { flex-wrap: wrap; }
+            .nav-btn { flex: calc(50% - 0.5rem); }
+            .display-panel { padding: 1.5rem; }
+            .item-header { flex-direction: column; gap: 0.25rem; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Responsive 3D Canvas Background Graphic Container -->
-    <div id="canvas-container"></div>
+<div class="portfolio-container">
+    
+    <header class="hero-section">
+        <img src="52026.jpg" alt="Azad Ahmed Bhurgrri" class="profile-img">
+        <div class="hero-text">
+            <h1>AZAD AHMED BHURGRRI</h1>
+            <div class="job-title">SOFTWARE ENGINEER INTERN</div>
+            <div class="location">Hyderabad, Sindh, Pakistan</div>
+            <a href="https://azadahmedbhurgrri.github.io/food-project/" target="_blank" class="github-link">➔ View on GitHub</a>
+            
+            <div class="header-actions">
+                <a href="mailto:azad.ahmed.bhurgrri@gmail.com" class="action-btn btn-primary">Hire Azad (Email)</a>
+                <a href="https://wa.me/923002259414" target="_blank" class="action-btn btn-whatsapp">Connect on WhatsApp</a>
+            </div>
 
-    <!-- Initialization Terminal Window Overlay -->
-    <div id="splash-screen">
-        <div class="splash-ui">
-            <button id="start-btn">PORTFOLIO</button>
-            <div class="splash-hint"> __SOFTWARE DEVELOPER INTRN__</div>
+            <p class="summary">
+                Highly motivated Computer Science student seeking a beginner-friendly software development internship. Possesses a solid foundation in core software concepts, frontend design, and scripting languages, with practical experience using modern coding tools.
+            </p>
         </div>
-    </div>
+    </header>
 
-    <!-- Scrollable Main Data Framework Layer -->
-    <main id="portfolio-content">
-        <header id="node-header">
-            <h2>AZAD AHMED BHURGRRI</h2>
-            <p class="subtitle">SOFTWARE DEVELOPER INTRN</p>
-            <p>HYDERABAD, SINDH, PAKISTAN</p>
-            <p style="margin-top: 10px; font-size: 0.85rem; color: var(--text-dim);">
-                <strong>  EMAIL: azadahmedbhurgrri@gmail.com   Contact No: +923126923725 </strong></p>
-           <p class="codes-line"> CODES: .NET / PYTHON / FLUTTER </p>
-        </header>
+    <nav class="control-panel">
+        <button class="nav-btn active" onclick="switchTab(event, 'skills')">Technical Skills</button>
+        <button class="nav-btn" onclick="switchTab(event, 'experience')">Professional Experience</button>
+        <button class="nav-btn" onclick="switchTab(event, 'projects')">Academic Projects</button>
+        <button class="nav-btn" onclick="switchTab(event, 'education')">Education</button>
+    </nav>
 
-        <section id="summary">
-            <h3>PROFESSIONAL ABSTRACT</h3>
-            <p><strong>Highly motivated Computer Science student (Final Year) at the University of Sindh seeking a beginner-friendly software development internship. Possesses a solid foundation in core software concepts, frontend design, and scripting languages, alongside a robust workflow in essential professional productivity tools. Eager to apply academic learning and technical skills to real-world team projects while gaining professional industry exposure.</strong></p>
-        </section>
+    <main class="display-panel">
 
-        <section id="education">
-            <h3>EDUCATION</h3>
-            <div class="item">
-                <div class="item-header">
-                    <span class="project-title">BS in Computer Science (Final Year)</span>
-                    <span class="date tag">In Progress</span>
+        <section id="skills" class="tab-content active">
+            <h3 class="section-title">Technical Skills</h3>
+            <div class="skill-group">
+                <h4>Programming & Frameworks</h4>
+                <div class="skill-tags">
+                    <span class="tag">.NET (C#)</span>
+                    <span class="tag">Python</span>
+                    <span class="tag">Flutter</span>
+                    <span class="tag">Dart</span>
                 </div>
-                <p><strong><h3>INSTITUTION:</h3> <br> IMCS, University of Sindh, Jamshoro.</strong></p>
-                <p><strong><h3>BATCH:</h3</strong> 2K23</p>
-                <p>Focusing on comprehensive software systems engineering, data processing matrix logic, and advanced modern computing methodologies.</p>
+            </div>
+            <div class="skill-group">
+                <h4>Web Development</h4>
+                <div class="skill-tags">
+                    <span class="tag">HTML5</span>
+                    <span class="tag">CSS3</span>
+                    <span class="tag">JavaScript</span>
+                </div>
+            </div>
+            <div class="skill-group">
+                <h4>Databases</h4>
+                <div class="skill-tags">
+                    <span class="tag">SQL</span>
+                    <span class="tag">MySQL</span>
+                    <span class="tag">MS SQL Server</span>
+                </div>
+            </div>
+            <div class="skill-group">
+                <h4>Tools & IDEs</h4>
+                <div class="skill-tags">
+                    <span class="tag">VS Code</span>
+                    <span class="tag">Visual Studio</span>
+                </div>
+            </div>
+
+            <div class="skill-group" style="margin-top: 2rem;">
+                <h4>Professional & Soft Skills</h4>
+                <div class="skill-tags">
+                    <span class="tag tag-soft">Problem Solving</span>
+                    <span class="tag tag-soft">Communication Skills</span>
+                    <span class="tag tag-soft">Deep Thinking & Analysis</span>
+                </div>
             </div>
         </section>
 
-        <section id="skills">
-            <h3>SKILLS</h3>
-            <div class="skills-grid">
-                <div class="skill-card"><span class="terminal-prompt">></span> .NET Framework (C#) | (Backend)</div>
-                <div class="skill-card"><span class="terminal-prompt">></span> Flutter App Dev (Frontend)</div>
-
-                <div class="skill-card"><span class="terminal-prompt">></span> SQL Architecture | (DataBase)</div>
-                <div class="skill-card"><span class="terminal-prompt">></span> Web Stack (HTML/CSS/JS) | Vibe Coding</div>
-                <div class="skill-card"><span class="terminal-prompt">></span> Python Scripting</div>
-                <div class="skill-card"><span class="terminal-prompt">></span> MS Word, MS Excel Data, MS PowerPoint</div>           
-            </div>
-        </section>
-
-        <section id="projects">
-            <h3>ACTIVE BUILD INDEX</h3>
-            <div class="item">
+        <section id="experience" class="tab-content">
+            <h3 class="section-title">Professional Experience</h3>
+            
+            <div class="item-card">
                 <div class="item-header">
-                    <span class="project-title">StudentHostel Pro</span>
-                    <span class="tag">DEV_PHASE</span>
+                    <span class="item-title">Software Development Intern (.NET)</span>
+                    <span class="item-meta">2026</span>
                 </div>
-                <p><strong>Architecture:</strong> Flutter Framework, REST API Integrations, Relational SQL Modules</p>
-                <p>Developing a cross-platform mobile platform architected to streamline room listings and roommate matching matrices for academic institutions.</p>
-            </div>
-            <div class="item">
-                <div class="item-header">
-                    <span class="project-title">Food Service Interface</span>
-                    <span class="tag">STABLE</span>
-                </div>
-                <p><strong>Architecture:</strong> HTML5, CSS3, Vanilla JavaScript UI Automation.</p>
-                <p>Engineered an interactive, responsive e-commerce menu tracking customer request arrays and adaptive screen rendering parameters.</p>
-            </div>
-        </section>
-
-        <section id="experience">
-            <h3>INDUSTRY DEPLOYMENTS</h3>
-            <div class="item">
-                <div class="item-header">
-                    <span class="project-title" style="font-weight: bold;">Software Development Intern (.NET)</span>
-                    <span class="date tag">2026</span>
-                </div>
-                <p><em>ORG: Software Solutions Provider</em></p>
-                <ul>
+                <div class="item-sub">Software Solutions Provider</div>
+                <ul class="item-details">
                     <li>Assisted in writing and testing simple desktop application modules using C# and the .NET framework inside Visual Studio.</li>
                     <li>Learned to connect frontend user interfaces with simple backend logic routines.</li>
                     <li>Gained basic database experience by writing structured SQL queries to retrieve and store application data.</li>
                 </ul>
             </div>
-            <div class="item">
+
+            <div class="item-card">
                 <div class="item-header">
-                    <span class="project-title" style="font-weight: bold;">Python Development Intern</span>
-                    <span class="date tag">2025</span>
+                    <span class="item-title">Python Development Intern</span>
+                    <span class="item-meta">2025</span>
                 </div>
-                <p><em>ORG: Tech Innovation Lab</em></p>
-                <ul>
+                <div class="item-sub">Tech Innovation Lab</div>
+                <ul class="item-details">
                     <li>Created basic Python scripts within the VS Code environment to help automate repetitive data tasks.</li>
                     <li>Practiced writing clean, well-documented, and readable code modules for simple data parsing routines.</li>
                     <li>Collaborated directly with senior team members to learn debugging, logic troubleshooting, and code optimization.</li>
@@ -381,381 +439,94 @@
             </div>
         </section>
 
-        <section id="languages">
-            <h3>LANGUAGES</h3>
-            <div class="languages-list">
-                <div class="lang-item"><span>»</span> English</div>
-                <div class="lang-item"><span>»</span> Urdu</div>
-                <div class="lang-item"><span>»</span> Sindhi</div>
+        <section id="projects" class="tab-content">
+            <h3 class="section-title">Academic Projects</h3>
+            
+            <div class="item-card">
+                <div class="item-header">
+                    <span class="item-title">StudentHostel Pro</span>
+                    <span class="item-meta">2026</span>
+                </div>
+                <div class="item-sub">Hostel Management & Roommate Matching System</div>
+                <ul class="item-details">
+                    <li>Developed a cross-platform mobile application using Flutter and C# backend logic.</li>
+                    <li>Designed an interactive dashboard for seamless management and dynamic roommate-matching routines.</li>
+                </ul>
+                <div class="project-links">
+                    <a href="https://github.com/AzadAhmedBhurgrri" target="_blank" class="github-link">➔ View on GitHub</a>
+                </div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-header">
+                    <span class="item-title">Email Spam Detection System</span>
+                    <span class="item-meta">2026</span>
+                </div>
+                <div class="item-sub">Machine Learning & Python Project</div>
+                <ul class="item-details">
+                    <li>Built an AI model using Python to intelligently detect and filter spam emails.</li>
+                    <li>Processed data payloads and optimized detection logic for classification pipelines.</li>
+                </ul>
+                <div class="project-links">
+                    <a href="https://github.com/AzadAhmedBhurgrri" target="_blank" class="github-link">➔ View on GitHub</a>
+                </div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-header">
+                    <span class="item-title">Food Web Page</span>
+                    <span class="item-meta">Recent</span>
+                </div>
+                
+                <div class="food-link-box">
+                    <a href="https://azadahmedbhurgrri.github.io/food-project/" target="_blank" class="project-direct-link">➔ Link: https://azadahmedbhurgrri.github.io/food-project/</a>
+                </div>
+
+                <div class="item-sub">Frontend Development Project</div>
+                <ul class="item-details">
+                    <li>Built and structured an interactive web page for an online restaurant menu using HTML5, CSS3, and basic JavaScript.</li>
+                    <li>Designed clear navigation bars, organized pricing charts, and an interactive customer contact layout.</li>
+                </ul>
+                <div class="project-links">
+                    <a href="https://github.com/AzadAhmedBhurgrri" target="_blank" class="github-link">➔ View on GitHub Repository</a>
+                </div>
             </div>
         </section>
+
+        <section id="education" class="tab-content">
+            <h3 class="section-title">Education</h3>
+            <div class="item-card">
+                <div class="item-header">
+                    <span class="item-title">Bachelor of Science in Computer Science (BSCS)</span>
+                    <span class="item-meta">Batch 2K23 | Grad: 2026</span>
+                </div>
+                <div class="item-sub">Institute of Mathematics and Computer Science (IMCS), University of Sindh, Jamshoro</div>
+                <ul class="item-details">
+                    <li>Completing comprehensive foundational courses in application development, relational database management systems (RDBMS), and computer networks.</li>
+                </ul>
+            </div>
+        </section>
+
     </main>
-<!-- =========================
-MODERN 3D BOOK STYLE PORTFOLIO
-Replace ONLY your <script> section with this
-========================= -->
+
+    <footer class="portfolio-footer"></footer>
+</div>
 
 <script>
-/* =========================================
-   MODERN CINEMATIC 3D BOOK EXPERIENCE
-   ========================================= */
-
-/* ---------- 1. THREE JS CORE ---------- */
-const container = document.getElementById('canvas-container');
-
-const scene = new THREE.Scene();
-scene.fog = new THREE.Fog(0xf8fafc, 20, 80);
-
-const camera = new THREE.PerspectiveCamera(
-    55,
-    window.innerWidth / window.innerHeight,
-    0.1,
-    1000
-);
-
-camera.position.set(0, 0, 18);
-
-const renderer = new THREE.WebGLRenderer({
-    antialias: true,
-    alpha: true
-});
-
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-renderer.outputEncoding = THREE.sRGBEncoding;
-
-container.appendChild(renderer.domElement);
-
-/* ---------- 2. LIGHTING ---------- */
-
-const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
-scene.add(ambientLight);
-
-const directionalLight = new THREE.DirectionalLight(0xffffff, 2);
-directionalLight.position.set(8, 10, 12);
-scene.add(directionalLight);
-
-const blueLight = new THREE.PointLight(0x0066cc, 2, 50);
-blueLight.position.set(-10, 4, 10);
-scene.add(blueLight);
-
-const goldLight = new THREE.PointLight(0xf59e0b, 1.5, 40);
-goldLight.position.set(10, -2, 8);
-scene.add(goldLight);
-
-/* ---------- 3. FLOATING BOOK SYSTEM ---------- */
-
-const booksGroup = new THREE.Group();
-scene.add(booksGroup);
-
-const floatingBooks = [];
-
-function createBook(index) {
-
-    const bookGroup = new THREE.Group();
-
-    /* BOOK BODY */
-    const geometry = new THREE.BoxGeometry(3.2, 4.4, 0.45);
-
-    const materials = [
-        new THREE.MeshStandardMaterial({
-            color: 0x0066cc,
-            roughness: 0.4,
-            metalness: 0.2
-        }),
-        new THREE.MeshStandardMaterial({
-            color: 0x0066cc,
-            roughness: 0.4,
-            metalness: 0.2
-        }),
-        new THREE.MeshStandardMaterial({
-            color: 0xffffff,
-            roughness: 0.7
-        }),
-        new THREE.MeshStandardMaterial({
-            color: 0xffffff,
-            roughness: 0.7
-        }),
-        new THREE.MeshStandardMaterial({
-            color: index % 2 === 0 ? 0xffffff : 0xf8fafc,
-            roughness: 0.3,
-            metalness: 0.1
-        }),
-        new THREE.MeshStandardMaterial({
-            color: 0x0066cc,
-            roughness: 0.5
-        })
-    ];
-
-    const book = new THREE.Mesh(geometry, materials);
-
-    /* GLOW PANEL */
-    const glowGeometry = new THREE.PlaneGeometry(2.8, 4);
-
-    const glowMaterial = new THREE.MeshBasicMaterial({
-        color: index % 2 === 0 ? 0x0066cc : 0xf59e0b,
-        transparent: true,
-        opacity: 0.12,
-        side: THREE.DoubleSide
-    });
-
-    const glowPanel = new THREE.Mesh(glowGeometry, glowMaterial);
-    glowPanel.position.z = 0.24;
-
-    /* INNER LINES */
-    const lineGeometry = new THREE.BufferGeometry();
-    const linePoints = [];
-
-    for (let i = 0; i < 20; i++) {
-
-        const y = 1.7 - i * 0.18;
-
-        linePoints.push(
-            -1.1, y, 0,
-             1.1, y, 0
-        );
-    }
-
-    lineGeometry.setAttribute(
-        'position',
-        new THREE.Float32BufferAttribute(linePoints, 3)
-    );
-
-    const lineMaterial = new THREE.LineBasicMaterial({
-        color: 0x1e293b,
-        transparent: true,
-        opacity: 0.18
-    });
-
-    const lines = new THREE.LineSegments(lineGeometry, lineMaterial);
-    lines.position.z = 0.25;
-
-    bookGroup.add(book);
-    bookGroup.add(glowPanel);
-    bookGroup.add(lines);
-
-    /* RANDOM POSITION */
-    const angle = (index / 12) * Math.PI * 2;
-    const radius = 12 + Math.random() * 4;
-
-    bookGroup.position.x = Math.cos(angle) * radius;
-    bookGroup.position.y = (Math.random() - 0.5) * 8;
-    bookGroup.position.z = (Math.random() - 0.5) * 15;
-
-    bookGroup.rotation.y = Math.random() * Math.PI;
-    bookGroup.rotation.x = (Math.random() - 0.5) * 0.5;
-
-    booksGroup.add(bookGroup);
-
-    floatingBooks.push({
-        mesh: bookGroup,
-        speed: 0.002 + Math.random() * 0.003,
-        rotationSpeed: 0.001 + Math.random() * 0.002
-    });
-}
-
-/* CREATE MULTIPLE BOOKS */
-for (let i = 0; i < 12; i++) {
-    createBook(i);
-}
-
-/* ---------- 4. PARTICLES ---------- */
-
-const particlesGeometry = new THREE.BufferGeometry();
-
-const particlesCount = 200;
-const positions = new Float32Array(particlesCount * 3);
-
-for (let i = 0; i < particlesCount * 3; i++) {
-    positions[i] = (Math.random() - 0.5) * 60;
-}
-
-particlesGeometry.setAttribute(
-    'position',
-    new THREE.BufferAttribute(positions, 3)
-);
-
-const particlesMaterial = new THREE.PointsMaterial({
-    color: 0x0066cc,
-    size: 0.05,
-    transparent: true,
-    opacity: 0.5
-});
-
-const particles = new THREE.Points(
-    particlesGeometry,
-    particlesMaterial
-);
-
-scene.add(particles);
-
-/* ---------- 5. MOUSE MOVEMENT ---------- */
-
-let mouseX = 0;
-let mouseY = 0;
-
-window.addEventListener('mousemove', (event) => {
-
-    mouseX = (event.clientX / window.innerWidth) - 0.5;
-    mouseY = (event.clientY / window.innerHeight) - 0.5;
-});
-
-/* ---------- 6. ANIMATION LOOP ---------- */
-
-const clock = new THREE.Clock();
-
-function animate() {
-
-    requestAnimationFrame(animate);
-
-    const elapsedTime = clock.getElapsedTime();
-
-    /* FLOATING BOOK MOTION */
-    floatingBooks.forEach((item, index) => {
-
-        item.mesh.rotation.y += item.rotationSpeed;
-
-        item.mesh.position.y += Math.sin(
-            elapsedTime * item.speed * 40 + index
-        ) * 0.003;
-
-        item.mesh.rotation.x += Math.sin(
-            elapsedTime * 0.3 + index
-        ) * 0.0005;
-    });
-
-    /* WHOLE GROUP MOVEMENT */
-    booksGroup.rotation.y += 0.0008;
-
-    booksGroup.position.x += (
-        mouseX * 2 - booksGroup.position.x
-    ) * 0.03;
-
-    booksGroup.position.y += (
-        -mouseY * 2 - booksGroup.position.y
-    ) * 0.03;
-
-    /* PARTICLES */
-    particles.rotation.y += 0.0005;
-
-    /* CAMERA SMOOTH */
-    camera.position.x += (mouseX * 1.5 - camera.position.x) * 0.02;
-    camera.position.y += (-mouseY * 1.5 - camera.position.y) * 0.02;
-
-    camera.lookAt(scene.position);
-
-    renderer.render(scene, camera);
-}
-
-animate();
-
-/* ---------- 7. SPLASH ANIMATION ---------- */
-
-const enterBtn = document.getElementById('start-btn');
-const splashScreen = document.getElementById('splash-screen');
-const mainContent = document.getElementById('portfolio-content');
-
-enterBtn.addEventListener('click', () => {
-
-    gsap.to(splashScreen, {
-        opacity: 0,
-        duration: 1.2,
-        ease: "power3.out"
-    });
-
-    const tl = gsap.timeline({
-
-        onComplete: () => {
-
-            splashScreen.style.display = 'none';
-
-            document.body.style.overflow = 'auto';
-
-            mainContent.style.pointerEvents = 'auto';
+    function switchTab(event, tabId) {
+        const buttons = document.querySelectorAll('.nav-btn');
+        buttons.forEach(btn => { btn.classList.remove('active'); });
+
+        const sections = document.querySelectorAll('.tab-content');
+        sections.forEach(sec => { sec.classList.remove('active'); });
+
+        event.currentTarget.classList.add('active');
+        
+        const targetSection = document.getElementById(tabId);
+        if (targetSection) {
+            targetSection.classList.add('active');
         }
-    });
-
-    /* CINEMATIC CAMERA */
-    tl.to(camera.position, {
-        z: 8,
-        duration: 2.5,
-        ease: "power4.inOut"
-    });
-
-    tl.to(booksGroup.rotation, {
-        y: 2.5,
-        duration: 3,
-        ease: "power3.inOut"
-    }, 0);
-
-    tl.to(floatingBooks.map(b => b.mesh.scale), {
-        x: 0.7,
-        y: 0.7,
-        z: 0.7,
-        stagger: 0.05,
-        duration: 1.5
-    }, 0.5);
-
-    /* CONTENT REVEAL */
-    tl.to('#node-header', {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        ease: "power3.out"
-    }, 1.1)
-
-    .to('#summary', {
-        opacity: 1,
-        y: 0,
-        duration: 0.7
-    }, "+=0.15")
-
-    .to('#education', {
-        opacity: 1,
-        y: 0,
-        duration: 0.7
-    }, "+=0.1")
-
-    .to('#skills', {
-        opacity: 1,
-        y: 0,
-        duration: 0.7
-    }, "+=0.1")
-
-    .to('#projects', {
-        opacity: 1,
-        y: 0,
-        duration: 0.7
-    }, "+=0.1")
-
-    .to('#experience', {
-        opacity: 1,
-        y: 0,
-        duration: 0.7
-    }, "+=0.1")
-
-    .to('#languages', {
-        opacity: 1,
-        y: 0,
-        duration: 0.7
-    }, "+=0.1");
-});
-
-/* ---------- 8. RESPONSIVE ---------- */
-
-window.addEventListener('resize', () => {
-
-    camera.aspect = window.innerWidth / window.innerHeight;
-
-    camera.updateProjectionMatrix();
-
-    renderer.setSize(
-        window.innerWidth,
-        window.innerHeight
-    );
-});
-
+    }
 </script>
-    
 </body>
 </html>
